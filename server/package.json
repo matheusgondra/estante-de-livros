@@ -1,0 +1,20 @@
+{
+  "name": "estante-de-livros",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheusgondra/estante-de-livros.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheusgondra/estante-de-livros/issues"
+  },
+  "homepage": "https://github.com/matheusgondra/estante-de-livros#readme"
+}
