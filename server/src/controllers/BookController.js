@@ -41,6 +41,16 @@ class BookController {
 			return res.status(500).json({ error: error.message });
 		}
 	}
+
+	static async deleteBook(req, res) {
+		const { id } = req.params;
+		try {
+			await models.Book.destroy({ where: { id } });
+			return res.status(200);
+		} catch (error) {
+			return res.status(500).json({ error: error.message });
+		}
+	}
 }
 
 module.exports = BookController;
