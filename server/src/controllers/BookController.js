@@ -29,6 +29,18 @@ class BookController {
 			return res.status(500).json({ error: error.message });
 		}
 	}
+	
+	static async updateBook(req, res) {
+		const { id } = req.params; 
+		const newData = req.body;
+		try {
+			await models.Book.update(newData, { where: { id } });	
+			const updatedBook = await models.Book.findOne({ where: { id } });
+			return res.status(200).json(updatedBook);
+		} catch (error) {
+			return res.status(500).json({ error: error.message });
+		}
+	}
 }
 
 module.exports = BookController;
