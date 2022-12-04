@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = require("./routes");
+const strategy_local = require("./middlewares/passport-local");
 
 const app = express();
 
