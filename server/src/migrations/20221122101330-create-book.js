@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       page_number: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       read: {
         type: Sequelize.BOOLEAN
