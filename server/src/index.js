@@ -1,6 +1,7 @@
 const express = require("express");
 const routes = require("./routes");
 const strategy_local = require("./middlewares/passport-local");
+const strategy_jwt = require("./middlewares/passport-jwt");
 
 const app = express();
 
