@@ -1,6 +1,6 @@
-const UserController = require("../controllers/UserController");
-const { Router } = require("express");
-const passport = require("passport");
+import UserController from "../controllers/UserController";
+import { Router } from "express";
+import passport from "passport";
 
 const router = Router();
 
@@ -13,4 +13,4 @@ router
 	.post("/register", UserController.registerUser)
 	.post("/login", passport.authenticate("local", { session: false }), UserController.loginUser);
 
-module.exports = router;
+export default router;

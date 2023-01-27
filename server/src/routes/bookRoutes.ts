@@ -1,6 +1,6 @@
-const { Router } = require("express");
-const BookController = require("../controllers/BookController");
-const passport = require("passport");
+import { Router } from "express";
+import passport from "passport";
+import BookController from "../controllers/BookController";
 
 const router = Router();
 router.use(passport.authenticate("jwt", { session: false }));
@@ -22,4 +22,4 @@ router
 router
 	.delete("/deleteBook", BookController.deleteBook);
 
-module.exports = router;
+export default router;
