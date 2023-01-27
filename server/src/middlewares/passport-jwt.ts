@@ -1,11 +1,10 @@
-const passport = require("passport");
-const JWTStategy = require("passport-jwt").Strategy;
-const ExtractJWT = require("passport-jwt").ExtractJwt;
+import passport from "passport";
+import { Strategy as JWTStategy, ExtractJwt} from "passport-jwt";
 const { User } = require("../models");
 
 // Estrategia de JSON Web Token (JWT)
 passport.use(new JWTStategy({
-	jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+	jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 	secretOrKey: process.env.SECRET
 }, async (jwtPayload, done) => {
 	try {
