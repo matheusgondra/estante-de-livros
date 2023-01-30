@@ -3,6 +3,16 @@ import jwt from "jsonwebtoken";
 import { prismaClient } from "../database/prismaClient";
 import { Request, Response } from "express";
 
+interface IUser {
+	id: number;
+	first_name: string;
+	last_name: string;
+	email: string;
+	password: string;
+	created_at: Date;
+	updated_at: Date;
+}
+
 class UserController {
 	static async registerUser(req: Request, res: Response) {
 		try {
@@ -25,14 +35,14 @@ class UserController {
 	}
 
 	static async loginUser(req: Request, res: Response) {
-		const user = req.user;
+		const user = req.user as IUser;
 
-		if(user) {
-			const token = jwt.sign({ id: user.id  }, process.env.SECRET as string, { expiresIn: "30s" });
+		if (user) {
+			const token = jwt.sign({ id: user.id }, process.env.SECRET as string, { expiresIn: "30s" });
 			return res.status(200).json({ token });
 		}
 
 	}
 }
 
-module.exports = UserController;
+export default UserController;

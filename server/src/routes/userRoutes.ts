@@ -4,10 +4,6 @@ import passport from "passport";
 
 const router = Router();
 
-// Routes GET
-router
-	.get("/test", passport.authenticate("jwt", { session: false }), UserController.test);
-
 // Routes POST
 router
 	.post("/register", UserController.registerUser)
