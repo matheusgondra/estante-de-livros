@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as JWTStategy, ExtractJwt} from "passport-jwt";
-const { User } = require("../models");
+import { prismaClient } from "../database/prismaClient";
 
 // Estrategia de JSON Web Token (JWT)
 passport.use(new JWTStategy({
@@ -8,8 +8,10 @@ passport.use(new JWTStategy({
 	secretOrKey: process.env.SECRET
 }, async (jwtPayload, done) => {
 	try {
-		const user = await User.findOne({ where: { id: jwtPayload.id } });
-		return done(null, user);
+		const user = await prismaClient.user.findUnique({ where: { id: jwtPayload.id } });
+		if(user) {
+			return done(null, user);
+		}
 	} catch(error) {
 		return done(error);
 	}
