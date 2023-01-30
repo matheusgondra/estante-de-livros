@@ -39,7 +39,7 @@ class BookController {
 			return res.status(500).json({ error: error.message });
 		}
 	}
-	
+
 	static async updateBook(req: Request, res: Response) {
 		const { id } = req.params;
 		const newData = req.body;
@@ -69,4 +69,4 @@ class BookController {
 	}
 }
 
-module.exports = BookController;
+export default BookController;
