@@ -38,7 +38,7 @@ class UserController {
 		const user = req.user as IUser;
 
 		if (user) {
-			const token = jwt.sign({ id: user.id }, process.env.SECRET as string, { expiresIn: "30s" });
+			const token = jwt.sign({ id: user.id }, process.env.SECRET as string, { expiresIn: "24h" });
 			return res.status(200).json({ token });
 		}
 
