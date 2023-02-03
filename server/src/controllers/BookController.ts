@@ -4,8 +4,13 @@ import { Request, Response } from "express";
 class BookController {
 	static async getAllBooks(req: Request, res: Response) {
 		try {
-			const books = await prismaClient.book.findMany();
-			return res.status(200).json(books);
+			if (req.user) {
+				const { user } = req;
+				const books = await prismaClient.book.findMany({
+					where: { user_id: user.id },
+				});
+				return res.status(200).json(books);
+			}
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}
@@ -14,9 +19,15 @@ class BookController {
 	static async getBook(req: Request, res: Response) {
 		const { id } = req.params;
 		try {
-			const where = { id: Number(id) };
-			const book = await prismaClient.book.findUnique({ where });
-			return res.status(200).json(book);
+			if (req.user) {
+				const { user } = req;
+				const where = {
+					id: Number(id),
+					user_id: user.id,
+				};
+				const book = await prismaClient.book.findFirst({ where });
+				return res.status(200).json(book);
+			}
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}
@@ -24,17 +35,20 @@ class BookController {
 
 	static async createBook(req: Request, res: Response) {
 		try {
-			const { title, author, page_number, read, user_id } = req.body;
-			const createdBook = await prismaClient.book.create({
-				data: {
-					title,
-					author,
-					page_number,
-					read,
-					user_id
-				}
-			});
-			return res.status(201).json(createdBook);
+			if (req.user) {
+				const { user } = req;
+				const { title, author, page_number, read } = req.body;
+				const createdBook = await prismaClient.book.create({
+					data: {
+						title,
+						author,
+						page_number,
+						read,
+						user_id: user.id,
+					},
+				});
+				return res.status(201).json(createdBook);
+			}
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}
@@ -44,27 +58,35 @@ class BookController {
 		const { id } = req.params;
 		const newData = req.body;
 		try {
-			const where = { id: Number(id) };
-			const data = { ...newData };
+			if (req.user) {
+				const { user } = req;
+				const where = {
+					id: Number(id),
+					user_id: user.id,
+				};
+				const data = { ...newData };
 
-			await prismaClient.book.update({ where, data });
+				await prismaClient.book.update({ where: { id: Number(id) }, data });
 
-			const updatedBook = await prismaClient.book.findUnique({ where });
+				const updatedBook = await prismaClient.book.findFirst({ where });
 
-			return res.status(200).json(updatedBook);
+				return res.status(200).json(updatedBook);
+			}
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
 		}
 	}
 
 	static async deleteBook(req: Request, res: Response) {
-		const { id } = req.params;
 		try {
-			const where = { id: Number(id) };
-			await prismaClient.book.delete({ where });
-			return res.status(200);
+			if (req.user) {
+				const { id } = req.params;
+				const where = { id: Number(id) };
+				await prismaClient.book.delete({ where });
+				return res.status(200).json({ message: "Resgistro deletado com sucesso!" });
+			}
 		} catch (error: any) {
-			return res.status(500).json({ error: error.message });
+			return res.status(500).json({ error: error.message, type_error: typeof(error) });
 		}
 	}
 }
