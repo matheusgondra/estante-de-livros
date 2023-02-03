@@ -25,9 +25,16 @@ class UserController {
 			const createdUser = await prismaClient.user.create({
 				data: {
 					...newUser
+				},
+				select: {
+					id: true,
+					first_name: true,
+					last_name: true,
+					email: true,
+					created_at: true,
+					updated_at: true
 				}
 			});
-
 			return res.status(201).json(createdUser);
 		} catch (error: any) {
 			return res.status(500).json({ error: error.message });
