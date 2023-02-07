@@ -7,7 +7,6 @@
 ### Usuário
 
 - Criar um usuário. [x]
-- Buscar usuário especifico.
 - Deletar um usuário.
 - Atualizar um usuário.
 - As ações devem ser feitas com o usuário autenticado. [x]
@@ -18,4 +17,4 @@
 - Deletar um livro. [x]
 - Buscar livro especifico. [x]
 - Atualizar um livro. [x]
-- Favoritar um livro. [x]
+- Favoritar um livro. 
