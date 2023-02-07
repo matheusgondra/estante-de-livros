@@ -7,8 +7,8 @@
 ### Usuário
 
 - Criar um usuário. [x]
-- Deletar um usuário.
-- Atualizar um usuário.
+- Deletar um usuário. [x]
+- Atualizar um usuário. [x]
 - As ações devem ser feitas com o usuário autenticado. [x]
 
 ### Livro
