@@ -3,7 +3,6 @@ import routes from "./routes";
 import passport from "passport";
 import localStrategy from "./middlewares/passport-local";
 import jwtStrategy from "./middlewares/passport-jwt";
-import { handle404 } from "./middlewares/handle404";
 import { version } from "../package.json";
 
 const app = express();
@@ -13,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.json());
-app.use(handle404);
+
 
 passport.use(localStrategy);
 passport.use(jwtStrategy)
