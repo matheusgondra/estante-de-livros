@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { prismaClient } from "../database/prismaClient";
 import { Request, Response } from "express";
+import { PrismaErrorHandler } from "../middlewares/PrismaErrorHandler";
 
 interface IUser {
 	id: number;
@@ -37,8 +38,7 @@ class AuthController {
 			});
 			return res.status(201).json(createdUser);
 		} catch (error: any) {
-			console.log(error)
-			return res.status(500).json({ error: error.message });
+			PrismaErrorHandler(error, res)
 		}
 	}
 

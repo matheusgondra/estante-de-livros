@@ -1,4 +1,4 @@
-export class UserErrorController extends Error {
+export class ErrorController extends Error {
 	public readonly statusCode;
 
 	constructor(msg: string, statusCode: number) {

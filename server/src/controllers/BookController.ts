@@ -1,5 +1,7 @@
 import { prismaClient } from "../database/prismaClient";
 import { Request, Response } from "express";
+import { ErrorController } from "./ErrorController";
+import { PrismaErrorHandler } from "../middlewares/PrismaErrorHandler";
 
 class BookController {
 	static async getAllBooks(req: Request, res: Response) {
@@ -26,9 +28,17 @@ class BookController {
 					user_id: user.id,
 				};
 				const book = await prismaClient.book.findFirst({ where });
+
+				if(book === null) {
+					throw new ErrorController("Livro não encontrado", 404);
+				}
+
 				return res.status(200).json(book);
 			}
 		} catch (error: any) {
+			if(error instanceof ErrorController) {
+				return res.status(error.statusCode).json({ error: error.message });
+			}
 			return res.status(500).json({ error: error.message });
 		}
 	}
@@ -55,9 +65,9 @@ class BookController {
 	}
 
 	static async updateBook(req: Request, res: Response) {
-		const { id } = req.params;
-		const newData = req.body;
 		try {
+			const { id } = req.params;
+			const newData = req.body;
 			if (req.user) {
 				const { user } = req;
 				const where = {
@@ -86,7 +96,7 @@ class BookController {
 				return res.status(200).json({ message: "Resgistro deletado com sucesso!" });
 			}
 		} catch (error: any) {
-			return res.status(500).json({ error: error.message, type_error: typeof(error) });
+			PrismaErrorHandler(error, res);
 		}
 	}
 }

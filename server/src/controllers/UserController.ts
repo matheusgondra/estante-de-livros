@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { prismaClient } from "../database/prismaClient";
 import { Request, Response } from "express";
-import { UserErrorController } from "./UserErrorController";
+import { ErrorController } from "./ErrorController";
 
 class UserController {
 	static async getUser(req: Request, res: Response) {
@@ -27,11 +27,11 @@ class UserController {
 					await prismaClient.user.delete({ where });
 					return res.status(200).json({ message: "Usuário deletado" });
 				} else {
-					throw new UserErrorController("Senha incorreta", 401);
+					throw new ErrorController("Senha incorreta", 401);
 				}
 			}
 		} catch (error: any) {
-			if(error instanceof UserErrorController) {
+			if(error instanceof ErrorController) {
 				return res.status(error.statusCode).json({ error: error.message });
 			} else {
 				return res.status(500).json({ error: error.message });
@@ -62,11 +62,11 @@ class UserController {
 					})
 					return res.status(200).json(updatedUSer);
 				} else {
-					throw new UserErrorController("Senha incorreta", 401)
+					throw new ErrorController("Senha incorreta", 401)
 				}
 			}
 		} catch (error: any) {
-			if(error instanceof UserErrorController) {
+			if(error instanceof ErrorController) {
 				return res.status(error.statusCode).json({ error: error.message });
 			} else {
 				return res.status(500).json({ error: error.message });
