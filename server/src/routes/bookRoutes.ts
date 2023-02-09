@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import BookController from "../controllers/BookController";
+import { bookValidate } from "../middlewares/validation";
 
 const router = Router();
 router.use(passport.authenticate("jwt", { session: false }));
@@ -12,7 +13,7 @@ router
 
 // Routes POST
 router
-	.post("/registerBook", BookController.createBook);
+	.post("/registerBook", bookValidate, BookController.createBook);
 
 // Routes PUT
 router
